@@ -3,11 +3,20 @@ import yaml
 
 
 class DataConnector:
-    def read_db_creds():
-        with open('cred/db_creds.yaml') as file:
+    def __init__(self,cred_file_path):
+        self.cred_file_path = cred_file_path
+        self.db_cred = self.read_db_creds()
+
+
+    def read_db_creds(self,):
+        with open(self.cred_file_path, 'r') as file:
             db_cred = yaml.safe_load(file)
-        return db_cred
+        return print(db_cred)
+    
+    def init_db_engine():
+        pass
 
 
-inst_connect = DataConnector.read_db_creds()
-print(inst_connect)
+inst_connect = DataConnector('cred/db_creds.yaml')
+
+
