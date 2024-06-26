@@ -32,7 +32,11 @@ class DataConnector:
     def list_db_tables(self):
         inspector = inspect(self.alchemy_engine)
         return print(inspector.get_table_names())
-
+    
+    def upload_to_db(self):
+        #TODO upload_to_db method to store the data 
+        # Todo in your sales_data database in a table named dim_users
+        pass
 
 inst_connect = DataConnector()
 inst_connect.read_db_creds('cred/db_creds.yaml')
