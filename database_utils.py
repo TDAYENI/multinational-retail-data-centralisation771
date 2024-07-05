@@ -8,6 +8,7 @@ from sqlalchemy import inspect
 
 class DataConnector:
     def __init__(self):
+        self.alchemy_engine = None
         self.db_cred = None
 
     def read_db_creds(self, cred_file_path):
@@ -27,7 +28,7 @@ class DataConnector:
             f"{db_cred['RDS_PORT']}/{db_cred['RDS_DATABASE']}"
         )
 
-        return self.alchemy_engine
+        return self.alchemy_engine, print(self.alchemy_engine)
 
     def list_db_tables(self):
         inspector = inspect(self.alchemy_engine)
@@ -38,6 +39,13 @@ class DataConnector:
         # Todo in your sales_data database in a table named dim_users
         pass
 
-inst_connect = DataConnector()
-inst_connect.read_db_creds('cred/db_creds.yaml')
-inst_connect.list_db_tables()
+# inst_connect = DataConnector()
+# aws_engine=inst_connect.read_db_creds('cred/db_creds.yaml')
+# inst_connect.list_db_tables()
+
+# pg engine to push data to database
+# pg_admin = DataConnector()
+# pg_engine=pg_admin.read_db_creds('cred/pg_admin_creds.yaml')
+
+# DataExtractor.read_rds_table('legacy_users', aws_engine)
+
