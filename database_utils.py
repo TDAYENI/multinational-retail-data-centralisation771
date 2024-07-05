@@ -28,8 +28,7 @@ class DataConnector:
             f"{db_cred['RDS_PORT']}/{db_cred['RDS_DATABASE']}"
         )
 
-        return self.alchemy_engine, print(self.alchemy_engine)
-
+        return self.alchemy_engine
     def list_db_tables(self):
         inspector = inspect(self.alchemy_engine)
         return print(inspector.get_table_names())
