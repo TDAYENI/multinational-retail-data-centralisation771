@@ -15,7 +15,8 @@ def main():
     legacy_users_df = extractor.read_rds_table('legacy_users', aws_engine)
 
     legacy_users_clean = DataCleaning()
-    legacy_users_clean.clean_user_data(legacy_users_df)
+    cleaned_users_df = legacy_users_clean.clean_user_data(legacy_users_df)
+    print(cleaned_users_df)
 
 
 
