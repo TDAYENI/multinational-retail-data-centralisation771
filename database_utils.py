@@ -12,7 +12,8 @@ class DataConnector:
         self.db_cred = None
 
     def read_db_creds(self, cred_file_path):
-        # reads database credentials then initaites method to create db connection
+        # reads database credentials then initaites
+        #  method to create db connection
         with open(cred_file_path, 'r') as file:
             self.db_cred = yaml.safe_load(file)
         return self.init_db_engine(self.db_cred)
