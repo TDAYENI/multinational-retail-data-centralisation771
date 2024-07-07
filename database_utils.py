@@ -30,14 +30,22 @@ class DataConnector:
         )
 
         return self.alchemy_engine
+
     def list_db_tables(self):
         inspector = inspect(self.alchemy_engine)
         return print(inspector.get_table_names())
-    
-    def upload_to_db(self):
-        #TODO upload_to_db method to store the data 
+
+    def upload_to_db(self, engine, table_name, data_frame):
+        # TODO upload_to_db method to store the data
         # Todo in your sales_data database in a table named dim_users
-        pass
+        # df.to_sql(table_name, local_engine, if_exists='replace')
+        try:
+            data_frame.to_sql(table_name, engine,
+                              index=False, if_exists='replace')
+            print(f"Data uploaded to {table_name} successfully.")
+        except Exception as e:
+            print(f"Error uploading data to legacy_users: {e}")
+
 
 # inst_connect = DataConnector()
 # aws_engine=inst_connect.read_db_creds('cred/db_creds.yaml')
@@ -48,4 +56,3 @@ class DataConnector:
 # pg_engine=pg_admin.read_db_creds('cred/pg_admin_creds.yaml')
 
 # DataExtractor.read_rds_table('legacy_users', aws_engine)
-

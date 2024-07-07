@@ -13,10 +13,19 @@ def main():
     extractor = DataExtractor()
     #returns data frame of leagcy users
     legacy_users_df = extractor.read_rds_table('legacy_users', aws_engine)
-
+    #returns cleaned data to be uploaded to 
     legacy_users_clean = DataCleaning()
     cleaned_users_df = legacy_users_clean.clean_user_data(legacy_users_df)
-    print(cleaned_users_df)
+
+    #retrieve database cred to upload 
+    pg_admin_inst = DataConnector()
+    pg_admin_engine = pg_admin_inst.read_db_creds('cred/pg_admin_creds.yaml')
+    print(pg_admin_engine)
+
+    #
+    pg_admin_inst.upload_to_db(
+        pg_admin_engine, 'legacy_users', cleaned_users_df)
+
 
 
 
