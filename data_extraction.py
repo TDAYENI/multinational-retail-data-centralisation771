@@ -26,3 +26,6 @@ class DataExtractor:
         pandas_pdf = pd.concat(pdf_df, ignore_index=True)
         return pandas_pdf
 
+    def list_number_of_stores(self,header):
+        
+

@@ -47,7 +47,7 @@ def main():
     pdf_inst = DataExtractor()
     pdf_link = 'https://data-handling-public.s3.eu-west-1.amazonaws.com/card_details.pdf'
     pdf_data = pdf_inst.retrieve_pdf_data(link=pdf_link)
-
+    breakpoint()
     # * PDF Cleaning
     pdf_cleaning_inst = DataCleaning()
 
@@ -56,7 +56,7 @@ def main():
     dates_list = ['date_payment_confirmed']
     pdf_cleaned = pdf_cleaning_inst.convert_dates(
         pdf_cleaned, date_columns=dates_list)
-    
+    # TODO change date of confirmed ID
     pdf_cleaned = pdf_cleaning_inst.clean_numbers(
         pdf_cleaned, column='card_number')
     
