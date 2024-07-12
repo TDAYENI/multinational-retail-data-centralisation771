@@ -39,14 +39,23 @@ class DataCleaning:
     def drop_na(self, data):
         return data.dropna()
 
+    def strip_string(self, data, string_column, remove_char):
+        data[string_column] = data[string_column].str.replace(remove_char, '')
+        return data.dropna()
+
     def clean_store_data(self, data):
-        cleaned_dates = self.convert_dates(data, date_columns_list=['opening_date'])
+        cleaned_dates = self.convert_dates(
+            data, date_columns_list=['opening_date'])
         cleaned_numeric = self.column_to_numeric(
             data=cleaned_dates, numeric_column='staff_numbers')
         dropped_column = self.drop_column(data=cleaned_numeric,
                                           dropped_column='lat')
-        add_null = self.replace_nulls(data = dropped_column)
+        add_null = self.replace_nulls(data=dropped_column)
         no_null = self.drop_na(data=add_null)
-        cleaned_data = self.column_to_numeric(data=no_null, numeric_column='staff_numbers')
+        numeric_cleaned = self.column_to_numeric(data=no_null,
+                                                 numeric_column='staff_numbers')
+        cleaned_data = self.strip_string(
+            data=numeric_cleaned,
+            string_column='continent', remove_char='ee')
 
         return cleaned_data
