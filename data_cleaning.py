@@ -43,22 +43,12 @@ class DataCleaning:
         return data
 
     def clean_store_data(self, data):
-        cleaned_data = (data.pipe(self.convert_dates, date_columns_list=['opening_date']).pipe(
-            self.column_to_numeric, numeric_column='staff_numbers').pipe(self.drop_column, dropped_column='lat').pipe(self.replace_nulls).pipe(self.drop_na).pipe(self.strip_string,string_column='continent', remove_char='ee'))
+        cleaned_data = (
+            data.pipe(self.convert_dates, date_columns_list=['opening_date'])
+            .pipe(self.column_to_numeric, numeric_column='staff_numbers')
+            .pipe(self.drop_column, dropped_column='lat')
+            .pipe(self.replace_nulls)
+            .pipe(self.drop_na)
+            .pipe(self.strip_string, string_column='continent', remove_char='ee'))
                         
-
-        # cleaned_dates = self.convert_dates(
-        #     data, date_columns_list=['opening_date'])
-        # cleaned_numeric = self.column_to_numeric(
-        #     data=cleaned_dates, numeric_column='staff_numbers')
-        # dropped_column = self.drop_column(data=cleaned_numeric,
-        #                                   dropped_column='lat')
-        # add_null = self.replace_nulls(data=dropped_column)
-        # no_null = self.drop_na(data=add_null)
-        # numeric_cleaned = self.column_to_numeric(data=no_null,
-        #                                          numeric_column='staff_numbers')
-        # cleaned_data = self.strip_string(
-        #     data=numeric_cleaned,
-        #     string_column='continent', remove_char='ee')
-
         return cleaned_data

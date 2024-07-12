@@ -78,3 +78,20 @@ class DataExtractor:
                 print(f"JSON decoding failed: {json_err}")
 
         return pd.DataFrame(store_data)
+
+    def extract_from_s3(self, aws_bucket, s3_key, local_path):
+        s3 = boto3.client('s3')
+        response = s3.get_object(Bucket=aws_bucket, Key=s3_key)
+
+        status = response.get("ResponseMetadata", {}).get("HTTPStatusCode")
+
+        if status == 200:
+            print(f"Successful S3 get_object response. Status - {status}")
+            products_df = pd.read_csv(response.get("Body"))
+            return products_df
+        else:
+            print(f"Unsuccessful S3 get_object response. Status - {status}")
+        
+
+
+
