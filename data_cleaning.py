@@ -13,7 +13,7 @@ class DataCleaning:
         for column in date_columns_list:
             data[column] = pd.to_datetime(
                 data[column], format=date_format, errors='coerce')
-        return data.copy()
+        return data
 
     def clean_numbers(self, data, column):
         """Removes non numeric characters using regex"""
@@ -41,21 +41,25 @@ class DataCleaning:
 
     def strip_string(self, data, string_column, remove_char):
         data[string_column] = data[string_column].str.replace(remove_char, '')
-        return data.dropna()
+        return data
 
     def clean_store_data(self, data):
-        cleaned_dates = self.convert_dates(
-            data, date_columns_list=['opening_date'])
-        cleaned_numeric = self.column_to_numeric(
-            data=cleaned_dates, numeric_column='staff_numbers')
-        dropped_column = self.drop_column(data=cleaned_numeric,
-                                          dropped_column='lat')
-        add_null = self.replace_nulls(data=dropped_column)
-        no_null = self.drop_na(data=add_null)
-        numeric_cleaned = self.column_to_numeric(data=no_null,
-                                                 numeric_column='staff_numbers')
-        cleaned_data = self.strip_string(
-            data=numeric_cleaned,
-            string_column='continent', remove_char='ee')
+        cleaned_data = (data.pipe(self.convert_dates, date_columns_list=['opening_date']).pipe(self.column_to_numeric, numeric_column='staff_numbers')
+                        )
+                        
+
+        # cleaned_dates = self.convert_dates(
+        #     data, date_columns_list=['opening_date'])
+        # cleaned_numeric = self.column_to_numeric(
+        #     data=cleaned_dates, numeric_column='staff_numbers')
+        # dropped_column = self.drop_column(data=cleaned_numeric,
+        #                                   dropped_column='lat')
+        # add_null = self.replace_nulls(data=dropped_column)
+        # no_null = self.drop_na(data=add_null)
+        # numeric_cleaned = self.column_to_numeric(data=no_null,
+        #                                          numeric_column='staff_numbers')
+        # cleaned_data = self.strip_string(
+        #     data=numeric_cleaned,
+        #     string_column='continent', remove_char='ee')
 
         return cleaned_data

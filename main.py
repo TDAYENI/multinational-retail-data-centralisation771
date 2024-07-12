@@ -83,14 +83,20 @@ def main():
     # print(stores_df.head())
     # TODO from here up
     #Todo del products csv later
-
     products_df = pd.read_csv('cred/stores_df.csv')
+
     
     store_inst = DataCleaning()
+
     cleaned_store_data = store_inst.clean_store_data(products_df)
-    print(cleaned_store_data.info())
-    print(cleaned_store_data.head())
-    cleaned_store_data.to_csv('cred/cleaned_stores_df.csv', mode='w+')
+    cleaned_store_data.to_csv('cred/cleaned_stores_df.csv')
+    #* repeat code del
+    # pg_admin_inst = DataConnector()
+    # pg_admin_engine = pg_admin_inst.read_db_creds('cred/pg_admin_creds.yaml')
+    # print(pg_admin_engine)
+    # pg_admin_inst.upload_to_db(
+    #     pg_admin_engine, table_name='dim_store_details',
+    #     data_frame=cleaned_store_data)
 if __name__ == "__main__":
     main()
 
