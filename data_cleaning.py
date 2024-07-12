@@ -33,8 +33,7 @@ class DataCleaning:
         return data
 
     def drop_column(self, data, dropped_column):
-        dropped_data = data.drop(dropped_column, axis=1)
-        return dropped_data
+        return data.drop(dropped_column, axis=1)
 
     def drop_na(self, data):
         return data.dropna()
@@ -44,8 +43,8 @@ class DataCleaning:
         return data
 
     def clean_store_data(self, data):
-        cleaned_data = (data.pipe(self.convert_dates, date_columns_list=['opening_date']).pipe(self.column_to_numeric, numeric_column='staff_numbers')
-                        )
+        cleaned_data = (data.pipe(self.convert_dates, date_columns_list=['opening_date']).pipe(
+            self.column_to_numeric, numeric_column='staff_numbers').pipe(self.drop_column, dropped_column='lat').pipe(self.replace_nulls,))
                         
 
         # cleaned_dates = self.convert_dates(
