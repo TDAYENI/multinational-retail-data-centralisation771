@@ -51,7 +51,7 @@ class DataExtractor:
             print(f"JSON decoding failed: {json_err}")
         return data
 
-    def retrieve_stores_data(store_number, header):
+    def retrieve_stores_data(self, store_number, header):
         store_data = []
 
         for store_number_index in range(0, store_number):

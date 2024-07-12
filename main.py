@@ -1,7 +1,8 @@
 from data_extraction import DataExtractor
 from database_utils import DataConnector
 from data_cleaning import DataCleaning
-import pandas as pd 
+import pandas as pd
+
 
 def main():
     # #* Reading DB
@@ -24,7 +25,7 @@ def main():
     # date_columns = ['date_of_birth', 'join_date']
     # cleaned_users = legacy_users_clean.convert_dates(
     #     legacy_users_df, date_columns)
-    
+
     # # remove non numeric characters
     # cleaned_users = legacy_users_clean.clean_numbers(
     #     legacy_users_df, column='phone_number')
@@ -39,7 +40,6 @@ def main():
     # pg_admin_engine = pg_admin_inst.read_db_creds('cred/pg_admin_creds.yaml')
     # print(pg_admin_engine)
     # pg_admin_inst.upload_to_db(pg_admin_engine, table_name='dim_users',data_frame=cleaned_users)
-
 
     # # TODO from up here ctl /
     # # * PDF Section
@@ -59,27 +59,30 @@ def main():
     # # TODO change date of confirmed ID
     # pdf_cleaned = pdf_cleaning_inst.clean_numbers(
     #     pdf_cleaned, column='card_number')
-    
+
     # pdf_cleaned = pdf_cleaning_inst.drop_na(pdf_cleaned)
-    
+
     # # * Upload PDF Data to DB
     # # retrieve database cred to upload to datasales
-    
+
     # pg_admin_inst.upload_to_db(
     #     pg_admin_engine, table_name='dim_card_details', data_frame=pdf_cleaned)
-    
-    #TODO from here up
-    #* Retrieve Product data
-    aws_header =  {"x-api-key": "yFBQbwXe9J3sd6zWVAMrK6lcxxr0q1lr2PT6DDMX"}
+
+    # TODO from here up
+    # * Retrieve Product data
+    aws_header = {"x-api-key": "yFBQbwXe9J3sd6zWVAMrK6lcxxr0q1lr2PT6DDMX"}
     store_num_url = 'https://aqj7u5id95.execute-api.eu-west-1.amazonaws.com/prod/number_stores'
     store_num_inst = DataExtractor()
-    num_of_stores = store_num_inst.list_number_of_stores(url=store_num_url,header=aws_header)
+    # returns a
+    num_of_stores = store_num_inst.list_number_of_stores(
+        url=store_num_url, header=aws_header)
     
-    store_num_inst.retrieve_stores_data(store_number =num_of_stores,header=aws_header)
+    # Returns data frame of all stores info
+    stores_df = store_num_inst.retrieve_stores_data(
+        store_number=num_of_stores['number_stores'], header=aws_header)
+    print(stores_df.head())
 
 
-
- 
 if __name__ == "__main__":
     main()
 
