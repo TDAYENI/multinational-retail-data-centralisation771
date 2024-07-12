@@ -84,3 +84,9 @@ class DataCleaning:
                     return None  # Unknown unit
             data[weight_column]= data[weight_column].astype(str).apply(convert_weights)
             return data
+
+
+    def clean_products_data(self,data):
+                cleaned_data = (
+                    data.pipe(self.convert_dates, date_columns_list=['date_added']).pipe(self.drop_na))
+                return cleaned_data

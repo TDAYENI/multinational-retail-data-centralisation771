@@ -108,10 +108,19 @@ def main():
                             s3_key=s3_key, local_path=local_path)
     
     products_inst = DataCleaning()
-    cleaned_prod = products_inst.convert_product_weights(
+    products_convert_kg = products_inst.convert_product_weights(
         data=products_df, weight_column='weight')
+    cleaned_prod = products_inst.clean_products_data(data=products_convert_kg)
     print(cleaned_prod.head())
 
+    cleaned_prod.to_csv('cred/cleaned_prod.csv')
+
+    pg_admin_inst = DataConnector()
+    pg_admin_engine = pg_admin_inst.read_db_creds('cred/pg_admin_creds.yaml')
+    print(pg_admin_engine)
+    pg_admin_inst.upload_to_db(
+        pg_admin_engine, table_name='dim_products',
+        data_frame=cleaned_prod)
 if __name__ == "__main__":
     main()
 
