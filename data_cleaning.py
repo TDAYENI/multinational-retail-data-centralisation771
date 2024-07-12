@@ -44,7 +44,7 @@ class DataCleaning:
 
     def clean_store_data(self, data):
         cleaned_data = (data.pipe(self.convert_dates, date_columns_list=['opening_date']).pipe(
-            self.column_to_numeric, numeric_column='staff_numbers').pipe(self.drop_column, dropped_column='lat').pipe(self.replace_nulls).pipe(self.drop_na))
+            self.column_to_numeric, numeric_column='staff_numbers').pipe(self.drop_column, dropped_column='lat').pipe(self.replace_nulls).pipe(self.drop_na).pipe(self.strip_string,string_column='continent', remove_char='ee'))
                         
 
         # cleaned_dates = self.convert_dates(
