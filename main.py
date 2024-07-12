@@ -88,8 +88,9 @@ def main():
     
     store_inst = DataCleaning()
     cleaned_store_data = store_inst.clean_store_data(products_df)
+    print(cleaned_store_data.info())
     print(cleaned_store_data.head())
-
+    cleaned_store_data.to_csv('cred/cleaned_stores_df.csv')
 if __name__ == "__main__":
     main()
 

@@ -41,6 +41,12 @@ class DataCleaning:
 
     def clean_store_data(self, data):
         cleaned_dates = self.convert_dates(data, date_columns_list=['opening_date'])
-        # cleaned_numeric = self.column_to_numeric(
-        #     data=cleaned_dates, numeric_column='staff_numbers')
-        return cleaned_dates
+        cleaned_numeric = self.column_to_numeric(
+            data=cleaned_dates, numeric_column='staff_numbers')
+        dropped_column = self.drop_column(data=cleaned_numeric,
+                                          dropped_column='lat')
+        add_null = self.replace_nulls(data = dropped_column)
+        no_null = self.drop_na(data=add_null)
+        cleaned_data = self.column_to_numeric(data=no_null, numeric_column='staff_numbers')
+
+        return cleaned_data
