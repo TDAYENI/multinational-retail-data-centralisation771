@@ -68,20 +68,27 @@ def main():
     # pg_admin_inst.upload_to_db(
     #     pg_admin_engine, table_name='dim_card_details', data_frame=pdf_cleaned)
 
-    # TODO from here up
-    # * Retrieve Product data
-    aws_header = {"x-api-key": "yFBQbwXe9J3sd6zWVAMrK6lcxxr0q1lr2PT6DDMX"}
-    store_num_url = 'https://aqj7u5id95.execute-api.eu-west-1.amazonaws.com/prod/number_stores'
-    store_num_inst = DataExtractor()
-    # returns a
-    num_of_stores = store_num_inst.list_number_of_stores(
-        url=store_num_url, header=aws_header)
-    
-    # Returns data frame of all stores info
-    stores_df = store_num_inst.retrieve_stores_data(
-        store_number=num_of_stores['number_stores'], header=aws_header)
-    print(stores_df.head())
 
+    # # * Retrieve Product data
+    # aws_header = {"x-api-key": "yFBQbwXe9J3sd6zWVAMrK6lcxxr0q1lr2PT6DDMX"}
+    # store_num_url = 'https://aqj7u5id95.execute-api.eu-west-1.amazonaws.com/prod/number_stores'
+    # store_num_inst = DataExtractor()
+    # # returns a
+    # num_of_stores = store_num_inst.list_number_of_stores(
+    #     url=store_num_url, header=aws_header)
+    
+    # # Returns data frame of all stores info
+    # stores_df = store_num_inst.retrieve_stores_data(
+    #     store_number=num_of_stores['number_stores'], header=aws_header)
+    # print(stores_df.head())
+    # TODO from here up
+    #Todo del products csv later
+
+    products_df = pd.read_csv('cred/stores_df.csv')
+    
+    store_inst = DataCleaning()
+    cleaned_store_data = store_inst.clean_store_data(products_df)
+    print(cleaned_store_data.head())
 
 if __name__ == "__main__":
     main()
