@@ -50,5 +50,37 @@ class DataCleaning:
             .pipe(self.replace_nulls)
             .pipe(self.drop_na)
             .pipe(self.strip_string, string_column='continent', remove_char='ee'))
-                        
+
         return cleaned_data
+
+    def convert_product_weights(self, data, weight_column):
+            def convert_weights(weights):
+                # Handle multiple units (e.g., "8 x 85g")
+                multiple_match = re.match(
+                    r'(\d+)\s*x\s*(\d+\.?\d*)(\w+)', weights)
+                if multiple_match:
+                    count = int(multiple_match.group(1))
+                    value = float(multiple_match.group(2))
+                    unit = multiple_match.group(3)
+                    weight_value = count * value
+                else:
+                    # Extract value and unit
+                    match = re.match(r'(\d+\.?\d*)(\w+)', weights)
+                    if not match:
+                        return None
+                    weight_value = float(match.group(1))
+                    unit = match.group(2)
+
+                # Conversion factors
+                if unit == 'kg':
+                    return weight_value
+                elif unit == 'g':
+                    return weight_value * 0.001
+                elif unit == 'ml':
+                    return weight_value * 0.001  # Assuming 1:1 ratio for ml to g
+                elif unit == 'oz':
+                    return weight_value * 0.0283495
+                else:
+                    return None  # Unknown unit
+            data[weight_column]= data[weight_column].astype(str).apply(convert_weights)
+            return data

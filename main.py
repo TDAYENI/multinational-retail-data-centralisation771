@@ -103,10 +103,14 @@ def main():
     s3_key = 'products.csv'
     local_path = 'cred/products.csv'
     s3_inst= DataExtractor()
+
     products_df=s3_inst.extract_from_s3(aws_bucket=aws_bucket,
                             s3_key=s3_key, local_path=local_path)
     
-    print(products_df.head())
+    products_inst = DataCleaning()
+    cleaned_prod = products_inst.convert_product_weights(
+        data=products_df, weight_column='weight')
+    print(cleaned_prod.head())
 
 if __name__ == "__main__":
     main()
