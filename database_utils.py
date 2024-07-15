@@ -47,9 +47,9 @@ class DataConnector:
             print(f"Error uploading data to legacy_users: {e}")
 
 
-# inst_connect = DataConnector()
-# aws_engine=inst_connect.read_db_creds('cred/db_creds.yaml')
-# inst_connect.list_db_tables()
+# aws_connector = DataConnector()
+# aws_engine=aws_connector.read_db_creds('cred/db_creds.yaml')
+# aws_connector.list_db_tables()
 
 # pg engine to push data to database
 # pg_admin = DataConnector()

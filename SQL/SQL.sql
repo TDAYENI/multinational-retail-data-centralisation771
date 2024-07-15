@@ -7,7 +7,7 @@ ALTER COLUMN date_uuid  TYPE  UUID USING date_uuid::uuid,
 	ALTER COLUMN store_code TYPE VARCHAR,
 	ALTER COLUMN product_code    TYPE VARCHAR,
 	ALTER COLUMN product_quantity TYPE SMALLINT;
-	
+
 --dim_users
 
 ALTER TABLE  dim_users
@@ -93,13 +93,14 @@ ALTER COLUMN product_price TYPE  FLOAT USING product_price::double precision,
 	) ,
 	ALTER COLUMN weight_class TYPE VARCHAR;
 
+
     -- dim_dates
     ALTER TABLE  dim_date_times
 ALTER COLUMN month TYPE  VARCHAR,
 	ALTER COLUMN year  TYPE  VARCHAR,
 	ALTER COLUMN day TYPE VARCHAR,
-	ALTER COLUMN time_period TYPE SMALLINT,
-	ALTER COLUMN date_uuid    TYPE DATE;
+	ALTER COLUMN time_period TYPE VARCHAR,
+	ALTER COLUMN date_uuid    TYPE uuid USING date_uuid::uuid;
 
 	--dim_card_details    
 
