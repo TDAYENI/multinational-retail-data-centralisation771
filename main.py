@@ -2,7 +2,7 @@ from data_extraction import Datadata_extractor
 from database_utils import DataConnector
 from data_cleaning import DataCleaning
 import pandas as pd
-#TODO LIST
+# TODO LIST
 # legacy_users_df = data_extractor.read_rds_table('legacy_users', aws_engine)
 
 # * Cleaning users dataframe
@@ -29,12 +29,13 @@ cleaned_users = legacy_users_clean.drop_na(legacy_users_df)
 pg_admin_connector.upload_to_db(
     pg_admin_engine, table_name='dim_users', data_frame=cleaned_users)
 
+
 def main():
     # Initialise DataConnector to read database credentials and create an engine
     aws_connector = DataConnector()
     aws_engine = aws_connector.read_db_creds('cred/db_creds.yaml')
 
-    #list all databases in connected DB
+    # list all databases in connected DB
     aws_connector.list_db_tables()
 
     # extract data from 'orders_table
@@ -45,18 +46,17 @@ def main():
     orders_table_clean = DataCleaning()
     cleaned_orders_table = orders_table_clean.clean_orders_data(
         data=orders_table_df)
-    
- 
 
     # Intialise pg admin  db conection and read credential
     pg_admin_connector = DataConnector()
-    pg_admin_engine = pg_admin_connector.read_db_creds('cred/pg_admin_creds.yaml')
+    pg_admin_engine = pg_admin_connector.read_db_creds(
+        'cred/pg_admin_creds.yaml')
 
     # Upload the cleaned orders table to the db
     pg_admin_connector.upload_to_db(
         pg_admin_engine, table_name='orders_table',
         data_frame=cleaned_orders_table)
-    
+
     # Extracting data from a PDF
     pdf_extractor = Datadata_extractor()
     pdf_link = 'https://data-handling-public.s3.eu-west-1.amazonaws.com/card_details.pdf'
@@ -69,7 +69,7 @@ def main():
     dates_list = ['date_payment_confirmed']
     pdf_cleaned = pdf_cleaning_inst.convert_dates(
         pdf_cleaned, date_columns=dates_list)
-    
+
     pdf_cleaned = pdf_cleaning_inst.clean_numbers(
         pdf_cleaned, column='card_number')
 
@@ -83,50 +83,43 @@ def main():
     aws_header = {"x-api-key": "yFBQbwXe9J3sd6zWVAMrK6lcxxr0q1lr2PT6DDMX"}
     store_num_url = 'https://aqj7u5id95.execute-api.eu-west-1.amazonaws.com/prod/number_stores'
     store_num_extractor = Datadata_extractor()
-    # returns a
+    # returns number of stores
     num_of_stores = store_num_extractor.list_number_of_stores(
         url=store_num_url, header=aws_header)
 
-    # Returns data frame of all stores info
+    # Retrieves data frame of store info
     stores_df = store_num_extractor.retrieve_stores_data(
         store_number=num_of_stores['number_stores'], header=aws_header)
     print(stores_df.head())
 
-    #Todo del products csv later
-    products_df = pd.read_csv('cred/stores_df.csv')
+    # #Todo del products csv later
+    # products_df = pd.read_csv('cred/stores_df.csv')
 
-    store_inst = DataCleaning()
-
-    cleaned_store_data = store_inst.clean_store_data(products_df)
+    # Cleans store data
+    store_cleaner = DataCleaning()
+    cleaned_store_data = store_cleaner.clean_store_data(stores_df)
     cleaned_store_data.to_csv('cred/cleaned_stores_df.csv')
 
-    #* repeat code del upload store data to pg db
-    pg_admin_connector = DataConnector()
-    pg_admin_engine = pg_admin_connector.read_db_creds('cred/pg_admin_creds.yaml')
-    print(pg_admin_engine)
+    # upload stores data to postgres db
     pg_admin_connector.upload_to_db(
         pg_admin_engine, table_name='dim_store_details',
         data_frame=cleaned_store_data)
-    # TODO from here up
+
+    # Retrieve, clean, and upload product data from S3
     aws_bucket = 'data-handling-public'
     s3_key = 'products.csv'
     local_path = 'cred/products.csv'
-    s3_inst= Datadata_extractor()
-
-    products_df=s3_inst.extract_from_s3(aws_bucket=aws_bucket,
-                            s3_key=s3_key, local_path=local_path)
-
-    products_inst = DataCleaning()
-    products_convert_kg = products_inst.convert_product_weights(
+    s3_extractor = Datadata_extractor()
+    products_df = s3_extractor.extract_from_s3(aws_bucket=aws_bucket,
+                                               s3_key=s3_key, local_path=local_path)
+    # Cleaning products data
+    product_cleaner = DataCleaning()
+    products_convert_kg = product_cleaner .convert_product_weights(
         data=products_df, weight_column='weight')
-    cleaned_prod = products_inst.clean_products_data(data=products_convert_kg)
+    cleaned_prod = product_cleaner .clean_products_data(
+        data=products_convert_kg)
     print(cleaned_prod.head())
 
-    cleaned_prod.to_csv('cred/cleaned_prod.csv')
-
-    pg_admin_connector = DataConnector()
-    pg_admin_engine = pg_admin_connector.read_db_creds('cred/pg_admin_creds.yaml')
-    print(pg_admin_engine)
     pg_admin_connector.upload_to_db(
         pg_admin_engine, table_name='dim_products',
         data_frame=cleaned_prod)
@@ -134,4 +127,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
