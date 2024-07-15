@@ -105,7 +105,7 @@ def main():
         pg_admin_engine, table_name='dim_store_details',
         data_frame=cleaned_store_data)
 
-    # Retrieve, clean, and upload product data from S3
+    # Retrieve product data from S3
     aws_bucket = 'data-handling-public'
     s3_key = 'products.csv'
     local_path = 'cred/products.csv'
@@ -119,7 +119,7 @@ def main():
     cleaned_prod = product_cleaner .clean_products_data(
         data=products_convert_kg)
     print(cleaned_prod.head())
-
+    # upload products table to db
     pg_admin_connector.upload_to_db(
         pg_admin_engine, table_name='dim_products',
         data_frame=cleaned_prod)

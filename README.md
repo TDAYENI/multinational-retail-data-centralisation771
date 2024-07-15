@@ -1,8 +1,8 @@
-Multinational Retail Data Centralisation Project
+# Multinational Retail Data Centralisation Project
 Overview
 This project is aimed at centralising data from various sources for a multinational retail company. The project involves extracting data from multiple databases, cleaning and transforming the data, and then uploading the cleaned data into a centralised database for further analysis and reporting.
 
-Project Structure
+## Project Structure
 The project directory contains the following key files and directories:
 
 main.py: The main script that orchestrates the data extraction, cleaning, and uploading processes.
@@ -11,7 +11,9 @@ data_cleaning.py: Contains methods for cleaning data, including replacing null v
 database_utils.py: Contains methods for managing database connections and uploading data to databases.
 cred/: Directory containing credential files for accessing databases.
 SQL/: Directory containing SQL scripts for database operations.
-Installation
+
+
+## Installation
 To run this project, you need to have Python installed along with the necessary libraries. You can install the required libraries using the requirements.txt file.
 
 

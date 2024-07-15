@@ -8,27 +8,75 @@ import tabula
 import boto3
 import requests
 
-# Todo The methods contained will be fit to extract data from a particular data source,
-# Todo these sources will include CSV files, an API and an S3 bucket
 
 
 class DataExtractor:
+    """_summary_
+ A class used to extract data from various sources including RDS databases, PDFs, APIs, and S3 buckets.
 
-    # class to read the data from the RDS database
+    Methods
+    -------
+    read_rds_table(table_name, engine)
+        Reads a table from an RDS database into a DataFrame.
+
+    retrieve_pdf_data(link)
+        Extracts data from a PDF file and returns it as a DataFrame.
+
+    list_number_of_stores(url, headers)
+        Gets the number of stores from an API.
+
+    retrieve_s3_data(bucket_name, file_key, aws_access_key, aws_secret_key, region_name)
+        Downloads a CSV file from an S3 bucket and returns it as a DataFrame.
+    """
 
     def read_rds_table(self, table_name, engine):
+        """_summary_
+         Extracts data from a PDF file and returns it as a DataFrame
+        Parameters
+        ----------
+        table_name : str
+            The name of the table to read
+        engine : Engine
+             SQLAlchemy engine instance
+
+        Returns
+        -------
+        DataFrame: The table data as a pandas DataFrame.
+    
+        """
         db_df = pd.read_sql_table(table_name, engine)
         return db_df
 
-    # Todo extract the database table to a pandas DataFrame
-    #  TODO ke in an instance of your DatabaseConnector class and
-    # TODO the table name as an argument and return a pandas DataFrame.
+
     def retrieve_pdf_df(self, link):
+        """
+        Gets the number of stores from an API
+
+        Parameters
+        ----------
+        link :(str): URL or path to the PDF file
+
+        Returns
+        -------
+       DataFrame: The PDF data as a pandas DataFrame
+        """
         pdf_df = tabula.read_pdf(link, pages='all')
         pandas_pdf = pd.concat(pdf_df, ignore_index=True)
         return pandas_pdf
 
     def list_number_of_stores(self, url, header):
+        """
+        Gets the number of stores from an API
+
+        Parameters
+        ----------
+        url :  (str): The API endpoint URL.
+        header :(dict): The headers to include in the API request.
+
+        Returns
+        -------
+         int: The number of stores.
+        """
 
         try:
             response = requests.get(url, headers=header)
@@ -52,6 +100,21 @@ class DataExtractor:
         return data
 
     def retrieve_stores_data(self, store_number, header):
+        """
+        Downloads a CSV file from an S3 bucket and returns it as a DataFrame.
+
+        Parameters
+        ----------
+        store_number : _type_
+            _description_
+        header : _type_
+            _description_
+
+        Returns
+        -------
+        _type_
+            _description_
+        """
         store_data = []
 
         for store_number_index in range(0, store_number):
@@ -91,7 +154,3 @@ class DataExtractor:
             return products_df
         else:
             print(f"Unsuccessful S3 get_object response. Status - {status}")
-        
-
-
-

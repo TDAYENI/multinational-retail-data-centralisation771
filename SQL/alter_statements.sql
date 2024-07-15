@@ -33,7 +33,7 @@ ALTER COLUMN longitude TYPE  FLOAT USING longitude::double precision,
 	ALTER COLUMN continent    TYPE VARCHAR;
 	
 	
-dim_products change product numbers
+--dim_products change product numbers
 
     ALTER TABLE dim_products ADD COLUMN temp_product_price NUMERIC(10, 2);
 
@@ -108,3 +108,10 @@ ALTER COLUMN month TYPE  VARCHAR,
 ALTER COLUMN card_number TYPE VARCHAR,
 	ALTER COLUMN expiry_date  TYPE  VARCHAR,
 	ALTER COLUMN date_payment_confirmed  TYPE DATE;
+
+
+ALTER TABLE orders_table
+--card details table
+ADD CONSTRAINT fk_card_number
+FOREIGN KEY (card_number)
+REFERENCES dim_card_details (card_number)
