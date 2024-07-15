@@ -17,8 +17,8 @@ class DataExtractor:
     # class to read the data from the RDS database
 
     def read_rds_table(self, table_name, engine):
-        legacy_users = pd.read_sql_table(table_name, engine)
-        return legacy_users
+        db_df = pd.read_sql_table(table_name, engine)
+        return db_df
 
     # Todo extract the database table to a pandas DataFrame
     #  TODO ke in an instance of your DatabaseConnector class and
