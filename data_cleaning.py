@@ -108,3 +108,14 @@ class DataCleaning:
             .pipe(self.drop_column, dropped_column='1')
         )
         return cleaned_data
+    
+    def clean_users(self, data, user_dates_cols, user_num_column):
+        cleaned_data = (
+            data.pipe(self.convert_dates, date_columns_list=user_dates_cols)
+            .pipe(self.clean_numbers, column=user_num_column)
+            .pipe(self.convert_data_types)
+            .pipe(self.replace_nulls)
+            .pipe(self.drop_na)
+           )
+
+        return cleaned_data

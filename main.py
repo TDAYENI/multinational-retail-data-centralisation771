@@ -35,7 +35,6 @@ def main():
     # Initialise DataConnector to read database credentials and create an engine
     aws_connector = DataConnector()
     aws_engine = aws_connector.read_db_creds('cred/db_creds.yaml')
-    
 
     # # list all databases in connected DB
     # aws_connector.list_db_tables()
@@ -59,33 +58,21 @@ def main():
     #     pg_admin_engine, table_name='orders_table',
     #     data_frame=cleaned_orders_table)
 
-        # TODO LIST
+    # TODO LIST
     data_extractor = DataExtractor()
     legacy_users_df = data_extractor.read_rds_table('legacy_users', aws_engine)
 
     # * Cleaning users dataframe
     # Cleans users data
+    user_dates_cols = ['date_of_birth', 'join_date']
+    user_num_column = 'phone_number'
     legacy_users_clean = DataCleaning()
-
-    # replace nulls
-    cleaned_users = legacy_users_clean.replace_nulls(legacy_users_df)
-
-    # convert_dates to date time
-    date_columns = ['date_of_birth', 'join_date']
-    cleaned_users = legacy_users_clean.convert_dates(
-        legacy_users_df, date_columns)
-
-    # remove non numeric characters
-    cleaned_users = legacy_users_clean.clean_numbers(
-        legacy_users_df, column='phone_number')
-    # sets relevant data types
-    cleaned_users = legacy_users_clean.convert_data_types(legacy_users_df)
-    # drop null
-    cleaned_users = legacy_users_clean.drop_na(legacy_users_df)
+    cleaned_users = legacy_users_clean.clean_users(
+        data=legacy_users_df, user_dates_cols=user_dates_cols, user_num_column=user_num_column)
+  # uploading cleaned users data to db
     pg_admin_connector.upload_to_db(
         pg_admin_engine, table_name='dim_users', data_frame=cleaned_users)
 # TODO un indent
-
 
     # # Extracting data from a PDF
     # pdf_extractor = DataExtractor()
@@ -102,7 +89,7 @@ def main():
     # # Upload PDF data to DB
     # pg_admin_connector.upload_to_db(
     #     pg_admin_engine, table_name='dim_card_details', data_frame=pdf_cleaned)
-    #TODO Comment out 
+    # TODO Comment out
     # # Retrieve number of stores from an API
     # aws_header = {"x-api-key": "yFBQbwXe9J3sd6zWVAMrK6lcxxr0q1lr2PT6DDMX"}
     # store_num_url = 'https://aqj7u5id95.execute-api.eu-west-1.amazonaws.com/prod/number_stores'
