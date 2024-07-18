@@ -58,23 +58,24 @@ def main():
     #     pg_admin_engine, table_name='orders_table',
     #     data_frame=cleaned_orders_table)
 
-    # TODO LIST
-    data_extractor = DataExtractor()
-    legacy_users_df = data_extractor.read_rds_table('legacy_users', aws_engine)
+    # # TODO LIST
+    # data_extractor = DataExtractor()
+    # legacy_users_df = data_extractor.read_rds_table('legacy_users', aws_engine)
 
-    # * Cleaning users dataframe
-    # Cleans users data
-    user_dates_cols = ['date_of_birth', 'join_date']
-    user_num_column = 'phone_number'
-    legacy_users_clean = DataCleaning()
-    cleaned_users = legacy_users_clean.clean_users(
-        data=legacy_users_df, user_dates_cols=user_dates_cols, user_num_column=user_num_column)
-  # uploading cleaned users data to db
-    pg_admin_connector.upload_to_db(
-        pg_admin_engine, table_name='dim_users', data_frame=cleaned_users)
+    # # * Cleaning users dataframe
+    # # Cleans users data
+    # user_dates_cols = ['date_of_birth', 'join_date']
+    # user_num_column = 'phone_number'
+    # legacy_users_clean = DataCleaning()
+    # cleaned_users = legacy_users_clean.clean_users(
+    #     data=legacy_users_df, user_dates_cols=user_dates_cols, user_num_column=user_num_column)
+    # # uploading cleaned users data to db
+    # pg_admin_connector.upload_to_db(
+    #     pg_admin_engine, table_name='dim_users', data_frame=cleaned_users)
+
 # TODO un indent
 
-    # # Extracting data from a PDF
+    # #* Extracting data from a PDF
     # pdf_extractor = DataExtractor()
     # pdf_link = 'https://data-handling-public.s3.eu-west-1.amazonaws.com/card_details.pdf'
     # pdf_df = pdf_extractor .retrieve_pdf_df(link=pdf_link)
@@ -89,6 +90,7 @@ def main():
     # # Upload PDF data to DB
     # pg_admin_connector.upload_to_db(
     #     pg_admin_engine, table_name='dim_card_details', data_frame=pdf_cleaned)
+
     # TODO Comment out
     # # Retrieve number of stores from an API
     # aws_header = {"x-api-key": "yFBQbwXe9J3sd6zWVAMrK6lcxxr0q1lr2PT6DDMX"}
@@ -116,24 +118,26 @@ def main():
     #     pg_admin_engine, table_name='dim_store_details',
     #     data_frame=cleaned_store_data)
 
-    # # Retrieve product data from S3
-    # aws_bucket = 'data-handling-public'
-    # s3_key = 'products.csv'
-    # local_path = 'cred/products.csv'
-    # s3_extractor = DataExtractor()
-    # products_df = s3_extractor.extract_from_s3(aws_bucket=aws_bucket,
-    #                                            s3_key=s3_key, local_path=local_path)
-    # # Cleaning products data
-    # product_cleaner = DataCleaning()
-    # products_convert_kg = product_cleaner .convert_product_weights(
-    #     data=products_df, weight_column='weight')
+    #* Retrieve product data from S3
+    aws_bucket = 'data-handling-public'
+    s3_key = 'products.csv'
+    local_path = 'cred/products.csv'
+    s3_extractor = DataExtractor()
+    products_df = s3_extractor.extract_from_s3(aws_bucket=aws_bucket,
+                                               s3_key=s3_key, local_path=local_path)
+    #* Cleaning products data
+    weight_column = 'weight'
+    product_cleaner = DataCleaning()
+    cleaned_prod = product_cleaner .convert_product_weights(
+        data=products_df, weight_column=weight_column)
+    
     # cleaned_prod = product_cleaner .clean_products_data(
     #     data=products_convert_kg)
     # print(cleaned_prod.head())
     # # upload products table to db
-    # pg_admin_connector.upload_to_db(
-    #     pg_admin_engine, table_name='dim_products',
-    #     data_frame=cleaned_prod)
+    pg_admin_connector.upload_to_db(
+        pg_admin_engine, table_name='dim_products',
+        data_frame=cleaned_prod)
 
 
 if __name__ == "__main__":
