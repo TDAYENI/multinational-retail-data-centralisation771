@@ -96,10 +96,10 @@ class DataCleaning:
             str).apply(convert_weights)
         return data
 
-    def clean_products_data(self, data, weight_column):
+    def clean_products_data(self, data, prod_dates_list):
         cleaned_data = (
-            data.pipe(self.convert_dates, date_columns_list=['date_added'])
-            .pipe(self.convert_product_weights(weight_column=weight_column))
+            data.pipe(self.convert_dates, date_columns_list=prod_dates_list)
+            .pipe(self.replace_nulls)
             .pipe(self.drop_na))
         return cleaned_data
 
@@ -110,7 +110,7 @@ class DataCleaning:
             .pipe(self.drop_column, dropped_column='1')
         )
         return cleaned_data
-    
+
     def clean_users(self, data, user_dates_cols, user_num_column):
         cleaned_data = (
             data.pipe(self.convert_dates, date_columns_list=user_dates_cols)
@@ -118,6 +118,6 @@ class DataCleaning:
             .pipe(self.convert_data_types)
             .pipe(self.replace_nulls)
             .pipe(self.drop_na)
-           )
+        )
 
         return cleaned_data

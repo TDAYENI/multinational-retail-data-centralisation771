@@ -108,7 +108,7 @@ def main():
     # # #Todo del products csv later
     # # products_df = pd.read_csv('cred/stores_df.csv')
 
-    # # Cleans store data
+    # # #* Cleans store data
     # store_cleaner = DataCleaning()
     # cleaned_store_data = store_cleaner.clean_store_data(stores_df)
     # cleaned_store_data.to_csv('cred/cleaned_stores_df.csv')
@@ -118,23 +118,22 @@ def main():
     #     pg_admin_engine, table_name='dim_store_details',
     #     data_frame=cleaned_store_data)
 
-    #* Retrieve product data from S3
+    # * Retrieve product data from S3
     aws_bucket = 'data-handling-public'
     s3_key = 'products.csv'
     local_path = 'cred/products.csv'
     s3_extractor = DataExtractor()
     products_df = s3_extractor.extract_from_s3(aws_bucket=aws_bucket,
                                                s3_key=s3_key, local_path=local_path)
-    #* Cleaning products data
+    # * Cleaning products data
     weight_column = 'weight'
+    prod_dates_list = ['date_added']
     product_cleaner = DataCleaning()
-    cleaned_prod = product_cleaner .convert_product_weights(
-        data=products_df, weight_column=weight_column)
-    
-    # cleaned_prod = product_cleaner .clean_products_data(
-    #     data=products_convert_kg)
-    # print(cleaned_prod.head())
-    # # upload products table to db
+    prod_weight_conv = product_cleaner.convert_product_weights(data=products_df, weight_column=weight_column
+       )
+    cleaned_prod = product_cleaner .clean_products_data(
+        data=prod_weight_conv, prod_dates_list=prod_dates_list)
+
     pg_admin_connector.upload_to_db(
         pg_admin_engine, table_name='dim_products',
         data_frame=cleaned_prod)
