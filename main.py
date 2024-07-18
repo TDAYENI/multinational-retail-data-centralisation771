@@ -64,17 +64,21 @@ def main():
     pdf_df = pdf_extractor .retrieve_pdf_df(link=pdf_link)
 
     #  PDF Cleaning
-    pdf_cleaning_inst = DataCleaning()
-    pdf_cleaned = pdf_cleaning_inst.replace_nulls(pdf_df)
-
     dates_list = ['date_payment_confirmed']
-    pdf_cleaned = pdf_cleaning_inst.convert_dates(
-        pdf_cleaned, date_columns_list=dates_list)
+    card_column = 'card_number'
 
-    pdf_cleaned = pdf_cleaning_inst.clean_numbers(
-        pdf_cleaned, column='card_number')
+    pdf_cleaning_inst = DataCleaning()
+    pdf_cleaned = pdf_cleaning_inst.clean_pdf(data=pdf_df, dates_list=dates_list, card_num_column=card_column)
+    # pdf_cleaned = pdf_cleaning_inst.replace_nulls(pdf_df)
 
-    pdf_cleaned = pdf_cleaning_inst.drop_na(pdf_cleaned)
+    # dates_list = ['date_payment_confirmed']
+    # pdf_cleaned = pdf_cleaning_inst.convert_dates(
+    #     pdf_cleaned, date_columns_list=dates_list)
+
+    # pdf_cleaned = pdf_cleaning_inst.clean_numbers(
+    #     pdf_cleaned, column='card_number')
+
+    # pdf_cleaned = pdf_cleaning_inst.drop_na(pdf_cleaned)
 
     # Upload PDF data to DB
     pg_admin_connector.upload_to_db(

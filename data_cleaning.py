@@ -53,6 +53,16 @@ class DataCleaning:
 
         return cleaned_data
 
+    def clean_pdf(self, data, dates_list, card_num_column):
+        cleaned_data = (
+            data.pipe(self.replace_nulls)
+            .pipe(self.convert_dates, date_columns_list=dates_list)
+            .pipe(self.clean_numbers, column=card_num_column)
+            .pipe(self.drop_na)
+        )
+
+        return cleaned_data
+
     def convert_product_weights(self, data, weight_column):
         def convert_weights(weights):
             # Handle multiple units (e.g., "8 x 85g")
