@@ -21,10 +21,6 @@ ALTER TABLE orders_table
 ADD FOREIGN KEY (product_code) REFERENCES dim_products(product_code);
 
 --dim_store_details
---identify dim_store_details rows with issue 187 
-SELECT store_code
-FROM orders_table
-WHERE store_code NOT IN (SELECT store_code FROM dim_store_details);
 
 ALTER TABLE orders_table
 ADD FOREIGN KEY (store_code) REFERENCES dim_store_details(store_code);
