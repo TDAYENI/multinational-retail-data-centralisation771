@@ -32,9 +32,10 @@ import pandas as pd
 
 
 def main():
-    # # Initialise DataConnector to read database credentials and create an engine
-    # aws_connector = DataConnector()
-    # aws_engine = aws_connector.read_db_creds('cred/db_creds.yaml')
+    # Initialise DataConnector to read database credentials and create an engine
+    aws_connector = DataConnector()
+    aws_engine = aws_connector.read_db_creds('cred/db_creds.yaml')
+    
 
     # # list all databases in connected DB
     # aws_connector.list_db_tables()
@@ -58,31 +59,49 @@ def main():
     #     pg_admin_engine, table_name='orders_table',
     #     data_frame=cleaned_orders_table)
 
-    # Extracting data from a PDF
-    pdf_extractor = DataExtractor()
-    pdf_link = 'https://data-handling-public.s3.eu-west-1.amazonaws.com/card_details.pdf'
-    pdf_df = pdf_extractor .retrieve_pdf_df(link=pdf_link)
+        # TODO LIST
+    data_extractor = DataExtractor()
+    legacy_users_df = data_extractor.read_rds_table('legacy_users', aws_engine)
 
-    #  PDF Cleaning
-    dates_list = ['date_payment_confirmed']
-    card_column = 'card_number'
+    # * Cleaning users dataframe
+    # Cleans users data
+    legacy_users_clean = DataCleaning()
 
-    pdf_cleaning_inst = DataCleaning()
-    pdf_cleaned = pdf_cleaning_inst.clean_pdf(data=pdf_df, dates_list=dates_list, card_num_column=card_column)
-    # pdf_cleaned = pdf_cleaning_inst.replace_nulls(pdf_df)
+    # replace nulls
+    cleaned_users = legacy_users_clean.replace_nulls(legacy_users_df)
 
-    # dates_list = ['date_payment_confirmed']
-    # pdf_cleaned = pdf_cleaning_inst.convert_dates(
-    #     pdf_cleaned, date_columns_list=dates_list)
+    # convert_dates to date time
+    date_columns = ['date_of_birth', 'join_date']
+    cleaned_users = legacy_users_clean.convert_dates(
+        legacy_users_df, date_columns)
 
-    # pdf_cleaned = pdf_cleaning_inst.clean_numbers(
-    #     pdf_cleaned, column='card_number')
-
-    # pdf_cleaned = pdf_cleaning_inst.drop_na(pdf_cleaned)
-
-    # Upload PDF data to DB
+    # remove non numeric characters
+    cleaned_users = legacy_users_clean.clean_numbers(
+        legacy_users_df, column='phone_number')
+    # sets relevant data types
+    cleaned_users = legacy_users_clean.convert_data_types(legacy_users_df)
+    # drop null
+    cleaned_users = legacy_users_clean.drop_na(legacy_users_df)
     pg_admin_connector.upload_to_db(
-        pg_admin_engine, table_name='dim_card_details', data_frame=pdf_cleaned)
+        pg_admin_engine, table_name='dim_users', data_frame=cleaned_users)
+# TODO un indent
+
+
+    # # Extracting data from a PDF
+    # pdf_extractor = DataExtractor()
+    # pdf_link = 'https://data-handling-public.s3.eu-west-1.amazonaws.com/card_details.pdf'
+    # pdf_df = pdf_extractor .retrieve_pdf_df(link=pdf_link)
+
+    # #  PDF Cleaning
+    # dates_list = ['date_payment_confirmed']
+    # card_column = 'card_number'
+
+    # pdf_cleaning_inst = DataCleaning()
+    # pdf_cleaned = pdf_cleaning_inst.clean_pdf(data=pdf_df, dates_list=dates_list, card_num_column=card_column)
+
+    # # Upload PDF data to DB
+    # pg_admin_connector.upload_to_db(
+    #     pg_admin_engine, table_name='dim_card_details', data_frame=pdf_cleaned)
     #TODO Comment out 
     # # Retrieve number of stores from an API
     # aws_header = {"x-api-key": "yFBQbwXe9J3sd6zWVAMrK6lcxxr0q1lr2PT6DDMX"}
