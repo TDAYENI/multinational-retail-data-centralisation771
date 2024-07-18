@@ -60,7 +60,8 @@ class DataExtractor:
         -------
        DataFrame: The PDF data as a pandas DataFrame
         """
-        pdf_df = tabula.read_pdf(link, pages='all')
+        #STREAM = TRUE READ UP ABOUT IT
+        pdf_df = tabula.read_pdf(link, pages='all',stream= False)
         pandas_pdf = pd.concat(pdf_df, ignore_index=True)
         return pandas_pdf
 

@@ -9,7 +9,7 @@ class DataCleaning:
     def replace_nulls(self, data, null_value='NULL', replacement=np.nan):
         return data.replace(null_value, replacement)
 
-    def convert_dates(self, data, date_columns_list, date_format='%Y-%m-%d'):
+    def convert_dates(self, data, date_columns_list, date_format='mixed'):
         for column in date_columns_list:
             data[column] = pd.to_datetime(
                 data[column], format=date_format, errors='coerce')
