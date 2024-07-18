@@ -29,14 +29,14 @@ class DataCleaning:
     def column_to_numeric(self, data, numeric_column):
         """Convert panda vlaues to best data types"""
         data[numeric_column] = pd.to_numeric(
-            data[numeric_column], downcast='integer', errors='coerce')
+            data[numeric_column], downcast='integer', errors='ignore')
         return data
 
     def drop_column(self, data, dropped_column):
         return data.drop(dropped_column, axis=1)
 
-    def drop_na(self, data):
-        return data.dropna()
+    def drop_na(self, data, threshold_no=2):
+        return data.dropna(thresh=threshold_no)
 
     def strip_string(self, data, string_column, remove_char):
         data[string_column] = data[string_column].str.replace(remove_char, '')
@@ -45,11 +45,10 @@ class DataCleaning:
     def clean_store_data(self, data):
         cleaned_data = (
             data.pipe(self.convert_dates, date_columns_list=['opening_date'])
-            .pipe(self.column_to_numeric, numeric_column='staff_numbers')
             .pipe(self.drop_column, dropped_column='lat')
             .pipe(self.replace_nulls)
-            .pipe(self.drop_na)
-            .pipe(self.strip_string, string_column='continent', remove_char='ee'))
+            .pipe(self.strip_string, string_column='continent', remove_char='ee')
+            .pipe(self.drop_na))
 
         return cleaned_data
 

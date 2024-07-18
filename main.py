@@ -110,20 +110,16 @@ def main():
     # Retrieves data frame of store info
     stores_df = store_num_extractor.retrieve_stores_data(
         store_number=num_of_stores['number_stores'], header=aws_header)
-    print(stores_df.head())
+    
 
-    # # #Todo del products csv later
-    # # products_df = pd.read_csv('cred/stores_df.csv')
+    #* Cleans store data
+    store_cleaner = DataCleaning()
+    cleaned_store_data = store_cleaner.clean_store_data(stores_df)
 
-    # # #* Cleans store data
-    # store_cleaner = DataCleaning()
-    # cleaned_store_data = store_cleaner.clean_store_data(stores_df)
-    # cleaned_store_data.to_csv('cred/cleaned_stores_df.csv')
-
-    # # upload stores data to postgres db
-    # pg_admin_connector.upload_to_db(
-    #     pg_admin_engine, table_name='dim_store_details',
-    #     data_frame=cleaned_store_data)
+    # upload stores data to postgres db
+    pg_admin_connector.upload_to_db(
+        pg_admin_engine, table_name='dim_store_details',
+        data_frame=cleaned_store_data)
 
     # * Retrieve product data from S3
     # aws_bucket = 'data-handling-public'
