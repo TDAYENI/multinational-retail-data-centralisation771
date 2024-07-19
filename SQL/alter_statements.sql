@@ -22,8 +22,12 @@ ALTER COLUMN first_name  TYPE  VARCHAR(255),
 	ALTER COLUMN join_date TYPE DATE;  
 
 
-SELECT * from dim_store_details where staff_numbers !~ '^-?[0-9]+(\.[0-9]+)?$';
+--SELECT * from dim_store_details where staff_numbers !~ '^-?[0-9]+(\.[0-9]+)?$';
+--For finding non numeric values in rows
 -- Alter Statements for dim_store_details
+
+
+-- Alter table in  dim_store_details
 
 ALTER TABLE  dim_store_details
 ALTER COLUMN longitude TYPE  FLOAT USING longitude::double precision,
@@ -38,21 +42,21 @@ ALTER COLUMN longitude TYPE  FLOAT USING longitude::double precision,
 	
 	
 --dim_products change product numbers
-
-    ALTER TABLE dim_products ADD COLUMN temp_product_price NUMERIC(10, 2);
-
+-- temp column, double p
+    ALTER TABLE dim_products ADD COLUMN temporary_product_price NUMERIC(5, 2);
+-- add old values to new temp column, replacing £ sign & string to numeric
 UPDATE dim_products
-SET temp_product_price = CAST(REPLACE(product_price, '£', '') AS NUMERIC(10, 2));
-
+SET temporary_product_price = CAST(REPLACE(product_price, '£', '') AS NUMERIC(5, 2));
+-- add modfied value in temp to orginal price column
 UPDATE dim_products
-SET product_price = temp_product_price;
+SET product_price = temporary_product_price;
+-- remove temp column
+ALTER TABLE dim_products DROP COLUMN temporary_product_price;
 
-ALTER TABLE dim_products DROP COLUMN temp_product_price;
-
--- Step 2: Add the weight_class column
+-- Add the weight_class column
 ALTER TABLE dim_products ADD COLUMN weight_class VARCHAR(20);
 
--- Step 3: Populate the weight_class column
+--  Populate the weight_class column
 UPDATE dim_products
 SET weight_class = CASE
     WHEN weight < 2 THEN 'Light'
@@ -61,19 +65,12 @@ SET weight_class = CASE
     WHEN weight >= 140 THEN 'Truck_Required'
 END;
 
-dim_products set CAST
 
 
 
-
-
---
-
-
-	ALTER COLUMN weight_class TYPE VARCHAR;
+	
 
 -- removed with EAN
-
 
 -- ALTER COLUMN still_available TYPE boolean USING
 -- 	(CASE 
