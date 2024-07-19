@@ -24,3 +24,11 @@ ADD FOREIGN KEY (product_code) REFERENCES dim_products(product_code);
 
 ALTER TABLE orders_table
 ADD FOREIGN KEY (store_code) REFERENCES dim_store_details(store_code);
+
+SELECT DISTINCT *
+FROM orders_table ot
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM dim_store_details dsd
+    WHERE dsd.store_code = ot.store_code
+);

@@ -116,8 +116,3 @@ ALTER COLUMN card_number TYPE VARCHAR,
 	ALTER COLUMN date_payment_confirmed  TYPE DATE;
 
 
-ALTER TABLE orders_table
---card details table
-ADD CONSTRAINT fk_card_number
-FOREIGN KEY (card_number)
-REFERENCES dim_card_details (card_number)
