@@ -22,7 +22,7 @@ ALTER COLUMN first_name  TYPE  VARCHAR(255),
 	ALTER COLUMN join_date TYPE DATE;  
 
 
-SELECT * from dim_store_details where latitude IS NULL;
+SELECT * from dim_store_details where staff_numbers !~ '^-?[0-9]+(\.[0-9]+)?$';
 -- Alter Statements for dim_store_details
 
 ALTER TABLE  dim_store_details

@@ -47,6 +47,7 @@ class DataCleaning:
             data.pipe(self.convert_dates, date_columns_list=['opening_date'])
             .pipe(self.drop_column, dropped_column='lat')
             .pipe(self.replace_nulls)
+            .pipe(self.clean_numbers, column='staff_numbers')
             .pipe(self.strip_string, string_column='continent', remove_char='ee')
             .pipe(self.drop_na))
 
