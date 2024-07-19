@@ -27,9 +27,15 @@ class DataCleaning:
         return data.convert_dtypes()
 
     def column_to_numeric(self, data, numeric_column):
-        """Convert panda vlaues to best data types"""
-        data[numeric_column] = pd.to_numeric(
-            data[numeric_column], downcast='integer', errors='ignore')
+        """Convert pandas values to numeric type"""
+        data.loc[:, numeric_column] = pd.to_numeric(
+            data[numeric_column], downcast='integer', errors='coerce')
+        return data
+
+    def column_as_type(self, data, as_type_column, type):
+        """Convert pandas column to specified data type"""
+        data.loc[:, as_type_column] = data[as_type_column].astype(
+            type)  # Use .loc to avoid SettingWithCopyWarning
         return data
 
     def drop_column(self, data, dropped_column):
@@ -121,8 +127,12 @@ class DataCleaning:
         )
 
         return cleaned_data
-    #Todo finish code
-    def clean_dates_details(self,data):
+
+    def clean_dates_details(self, data):
         cleaned_data = (
-            data.pipe
+            data.pipe(self.column_to_numeric, numeric_column='month')
+            .pipe(self.drop_na)
+            .pipe(self.column_as_type, as_type_column='month', type='int64')
+
         )
+        return cleaned_data

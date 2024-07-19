@@ -85,8 +85,7 @@ class DataExtractor:
 
             # Process the response if no exceptions were raised
             data = response.json()  # Assuming the response is in JSON format
-            print(data)
-
+            
         except requests.exceptions.HTTPError as http_err:
             print(f"HTTP error occurred: {http_err}")
         except requests.exceptions.ConnectionError as conn_err:
