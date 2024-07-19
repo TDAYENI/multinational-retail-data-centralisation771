@@ -44,6 +44,8 @@ ALTER COLUMN longitude TYPE  FLOAT USING longitude::double precision,
 --dim_products change product numbers
 -- temp column, double p
     ALTER TABLE dim_products ADD COLUMN temporary_product_price NUMERIC(5, 2);
+
+	
 -- add old values to new temp column, replacing £ sign & string to numeric
 UPDATE dim_products
 SET temporary_product_price = CAST(REPLACE(product_price, '£', '') AS NUMERIC(5, 2));

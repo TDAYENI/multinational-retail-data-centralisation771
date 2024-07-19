@@ -64,7 +64,7 @@ class DataExtractor:
         pandas_pdf = pd.concat(pdf_df, ignore_index=True)
         return pandas_pdf
 
-    def list_number_of_stores(self, url, header):
+    def retrieve_json(self, url, header):
         """
         Gets the number of stores from an API
 

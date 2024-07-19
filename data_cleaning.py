@@ -121,3 +121,8 @@ class DataCleaning:
         )
 
         return cleaned_data
+    #Todo finish code
+    def clean_dates_details(self,data):
+        cleaned_data = (
+            data.pipe
+        )

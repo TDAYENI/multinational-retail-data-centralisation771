@@ -76,14 +76,13 @@ def main():
     store_num_url = 'https://aqj7u5id95.execute-api.eu-west-1.amazonaws.com/prod/number_stores'
     store_num_extractor = DataExtractor()
     # returns number of stores
-    num_of_stores = store_num_extractor.list_number_of_stores(
+    num_of_stores = store_num_extractor.retrieve_json(
         url=store_num_url, header=aws_header)
 
     # Retrieves data frame of store info
     stores_df = store_num_extractor.retrieve_stores_data(
         store_number=num_of_stores['number_stores'], header=aws_header)
     
-
     #* Cleans store data
     store_cleaner = DataCleaning()
     cleaned_store_data = store_cleaner.clean_store_data(stores_df)
@@ -92,6 +91,18 @@ def main():
     pg_admin_connector.upload_to_db(
         pg_admin_engine, table_name='dim_store_details',
         data_frame=cleaned_store_data)
+    
+    #* Dates details
+    dates_url = 'https://data-handling-public.s3.eu-west-1.amazonaws.com/date_details.json'
+    dates_info_extractor = DataExtractor()
+    dates_details_cleaning = DataCleaning()
+    dates_info_df = dates_info_extractor.retrieve_json(
+        url=dates_url, header=aws_header)
+    
+    print(dates_info_df)
+    # cleaned_date = dates_details_cleaning.clean_dates_details(
+    #     data=dates_info_df)
+    
 
     # # * Retrieve product data from S3
     # aws_bucket = 'data-handling-public'
