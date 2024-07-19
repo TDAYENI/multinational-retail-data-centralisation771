@@ -1,9 +1,4 @@
 
 
-Drop TABLE
-dim_store_details,
-dim_date_times,
-dim_card_details,
+Drop TABLE "Legacy_users";
 
-dim_products,
-dim_users;
