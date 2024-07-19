@@ -1,6 +1,6 @@
 # Multinational Retail Data Centralisation Project
 Overview
-This project is aimed at centralising data from various sources for a multinational retail company. The project involves extracting data from multiple databases, cleaning and transforming the data, and then uploading the cleaned data into a centralised database for further analysis and reporting.
+This project is aimed at centralising data from different sources for a retail company. The project involves extracting data from multiple databases, cleaning, transforming the data and then uploading the cleaned data into a database for querying.
 
 ## Project Structure
 The project directory contains the following key files and directories:
