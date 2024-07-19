@@ -48,8 +48,6 @@ def main():
     pg_admin_connector.upload_to_db(
         pg_admin_engine, table_name='dim_users', data_frame=cleaned_users)
 
-# TODO un indent
-
     #* Extracting data from a PDF
     pdf_extractor = DataExtractor()
     pdf_link = 'https://data-handling-public.s3.eu-west-1.amazonaws.com/card_details.pdf'

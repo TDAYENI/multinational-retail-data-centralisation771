@@ -1,5 +1,5 @@
 
--- Alter Statements for Tables
+-- Alter Statements for orders_table
 ALTER TABLE  orders_table
 ALTER COLUMN date_uuid  TYPE  UUID USING date_uuid::uuid,
 	ALTER COLUMN user_uuid  TYPE UUID USING user_uuid::uuid,
@@ -8,24 +8,28 @@ ALTER COLUMN date_uuid  TYPE  UUID USING date_uuid::uuid,
 	ALTER COLUMN product_code    TYPE VARCHAR(12),
 	ALTER COLUMN product_quantity TYPE SMALLINT;
 
---dim_users
+
+SELECT * from dim_users WHERE date_of_birth is NULL;
+
+-- Alter Statements for dim_users
 
 ALTER TABLE  dim_users
 ALTER COLUMN first_name  TYPE  VARCHAR(255),
 	ALTER COLUMN last_name  TYPE  VARCHAR(255),
 	ALTER COLUMN date_of_birth TYPE DATE,
 	ALTER COLUMN user_uuid TYPE UUID USING user_uuid::uuid,
-	ALTER COLUMN country_code    TYPE VARCHAR,
+	ALTER COLUMN country_code    TYPE VARCHAR (20),
 	ALTER COLUMN join_date TYPE DATE;  
 
 
---dim_store_details
+SELECT * from dim_store_details where latitude IS NULL;
+-- Alter Statements for dim_store_details
 
 ALTER TABLE  dim_store_details
 ALTER COLUMN longitude TYPE  FLOAT USING longitude::double precision,
 	ALTER COLUMN locality  TYPE  VARCHAR(255),
 	ALTER COLUMN store_code TYPE VARCHAR,
-	ALTER COLUMN staff_numbers TYPE SMALLINT,
+	ALTER COLUMN staff_numbers TYPE SMALLINT USING staff_numbers::smallint,
 	ALTER COLUMN opening_date    TYPE DATE,
 	ALTER COLUMN store_type  TYPE VARCHAR(255) ,
 	ALTER COLUMN latitude TYPE FLOAT USING latitude::double precision,

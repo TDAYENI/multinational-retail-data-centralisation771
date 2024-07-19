@@ -35,8 +35,8 @@ class DataCleaning:
     def drop_column(self, data, dropped_column):
         return data.drop(dropped_column, axis=1)
 
-    def drop_na(self, data, threshold_no=2):
-        return data.dropna(thresh=threshold_no)
+    def drop_na(self, data):
+        return data.dropna()
 
     def strip_string(self, data, string_column, remove_char):
         data[string_column] = data[string_column].str.replace(remove_char, '')
