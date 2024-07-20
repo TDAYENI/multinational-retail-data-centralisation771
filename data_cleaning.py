@@ -1,7 +1,8 @@
 import numpy as np
 import re
 import pandas as pd
-
+#help with to be future depricated downcasting error
+pd.set_option('future.no_silent_downcasting', True)
 
 class DataCleaning:
     # Todo ook out for NULL values, errors with dates, incorrectly
@@ -56,22 +57,26 @@ class DataCleaning:
         data.dropna(thresh=num_columns - threshold, inplace=True)
         return data
 
+    def dropna_column(self, data, column):
+        data.dropna(subset=[column], inplace=True)
+        return data
+    
     def strip_string(self, data, string_column, remove_char):
         data[string_column] = data[string_column].str.replace(remove_char, '')
         return data
 
     def clean_store_data(self, data):
         cleaned_data = (
-            data.pipe(self.clean_numbers, column='store_code')
+            data.pipe(self.clean_store_code, column='store_code')
+            .pipe(self.dropna_column, column='store_code')
             .pipe(self.convert_dates, date_columns_list=['opening_date'])
             .pipe(self.clean_numbers, column='staff_numbers')
             .pipe(self.column_to_numeric, numeric_column='latitude')
             .pipe(self.column_to_numeric, numeric_column='longitude')
             .pipe(self.strip_string, string_column='continent', remove_char='ee')
-            .pipe(self.replace_nulls, null_value=['NULL', ''])
-            .pipe(self.thresh_drop_na)
+            .pipe(self.replace_nulls, null_value='NULL')
             .pipe(self.drop_column, dropped_column='lat')
-            .pipe(self.replace_nulls, null_value='N/A', replacement='0')
+            
         )
 
         return cleaned_data

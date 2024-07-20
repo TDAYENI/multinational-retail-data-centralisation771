@@ -9,7 +9,7 @@ ALTER COLUMN date_uuid  TYPE  UUID USING date_uuid::uuid,
 	ALTER COLUMN product_quantity TYPE SMALLINT;
 
 
-SELECT * from dim_users WHERE date_of_birth is NULL;
+--SELECT * from dim_users WHERE date_of_birth is NULL;
 
 -- Alter Statements for dim_users
 
@@ -28,6 +28,7 @@ ALTER COLUMN first_name  TYPE  VARCHAR(255),
 
 
 -- Alter table in  dim_store_details
+--select * from dim_store_details where store_code ='67';
 
 ALTER TABLE  dim_store_details
 ALTER COLUMN longitude TYPE  FLOAT USING longitude::double precision,
