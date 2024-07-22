@@ -25,6 +25,7 @@ To set up the project, follow these steps:
     Navigate to the directory containing the environment.yml file
     ```bash
     cd /path/to/directory
+    ````
     
 3. **Specify a name for the new environment during creation**
     ````bash
@@ -32,8 +33,25 @@ To set up the project, follow these steps:
 4. **Activate new env**
     ````bash
     conda activate myenv
+    ````
 
 ## File Structure
+# UPDATE TO INCLUDE ENVIRONMENTS FOLDER
+````kotlin 
+multinational-retail-data-centralisation/
+├── SQL/
+│   ├── alter_statements.sql
+│   ├── drop_statements.sql
+│   ├── primary_and_foreign_key.sql
+│   ├── t1_how_many_Stores_.sql
+│   ├── t2_most_stores.sql
+│   ├── t3_month_largest_sale.sql
+├── data_cleaning.py
+├── data_extraction.py
+├── database_utils.py
+├── README.md
+````
+
 The project directory contains the following key files and directories:
 
 main.py: The main script that orchestrates the data extraction, cleaning, and uploading processes.
@@ -67,7 +85,7 @@ pgadmin:
   user: your_username
   password: your_password
 ````
-## Installation
+## Dep
 To run this project, you need to have Python installed along with the necessary libraries. You can install the required libraries using the requirements.txt file.
 
 
