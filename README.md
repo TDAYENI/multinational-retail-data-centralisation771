@@ -9,6 +9,29 @@ This project is aimed at centralising data from different sources for a retail c
 - [Contributing](#contributing)
 - [License](#license)
 
+## Installation
+
+To set up the project, follow these steps:
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/TDAYENI/multinational-retail-data-centralisation771.git
+
+   cd multinational-retail-data-centralisation771
+
+2. **Install the Environment from the Text File**
+    The text file can be found in the environments folder
+
+    Navigate to the directory containing the environment.yml file
+    ```bash
+    cd /path/to/directory
+    
+3. **Specify a name for the new environment during creation**
+    ````bash
+    conda env create -f environment.yml -n new_env_name
+4. **Activate new env**
+    ````bash
+    conda activate myenv
 
 ## Project Structure
 The project directory contains the following key files and directories:
