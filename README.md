@@ -2,6 +2,14 @@
 Overview
 This project is aimed at centralising data from different sources for a retail company. The project involves extracting data from multiple databases, cleaning, transforming the data and then uploading the cleaned data into a database for querying.
 
+- [Installation](#installation)
+- [File Structure](#file-structure)
+- [Configuration](#configuration)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+
+
 ## Project Structure
 The project directory contains the following key files and directories:
 
