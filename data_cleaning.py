@@ -36,23 +36,23 @@ class DataCleaning:
         Drops a specified column from the DataFrame.
 
     drop_na(data)
-        Drops rows with any NaN values.
+        Drops rows with any NaN 
 
-    convert_product_weights(data, weight_column)
-        Converts product weights to a standard unit (kg).
+    convert_product_weights(data,weight_column)
+        Converts product weights to a standard unit kg
 
     clean_products_data(data, prod_dates_list)
-        Cleans product data by converting dates, replacing nulls, and dropping NaNs.
+        Cleans product data by converting dates, replacing nulls, and dropping NaNs
 
     clean_orders_data(data)
-        Cleans orders data by dropping unnecessary columns.
+        Cleans orders data by dropping unnecessarycolumns.
 
     clean_users(data, user_dates_cols, user_num_column)
-        Cleans user data by converting dates, cleaning numbers, converting data types,
+        Cleans user data by converting dates, cleaning numbers  , converting data types,
         replacing nulls, and dropping NaNs.
 
     clean_dates_details(data)
-        Cleans date details data by converting to numeric, dropping NaNs, and setting data type.
+        Clean date details  data by converting to numeric, dropping NaNs, and setting data type.
     """
     def replace_nulls(self, data, null_value='NULL', replacement=np.nan):
         return data.replace(null_value, replacement)
@@ -71,7 +71,17 @@ class DataCleaning:
         return data.copy()
 
     def clean_store_code(self, data, column):
-        """Replaces item with """
+        """_summary_
+        Replaces invalid store codes with NaN.
+        Parameters
+        ----------
+        data : pandas DataFrame
+        column : (str)The column to clean
+
+        Returns
+        -------
+        panadas DataFrame with clean data_
+        """
         data[column] = data[column].apply(
             lambda x: x if '-' in str(x) else np.nan)
         return data.copy()
@@ -139,6 +149,20 @@ class DataCleaning:
         return cleaned_data
 
     def convert_product_weights(self, data, weight_column):
+        """_summary_
+        Converts product weights kg
+
+        Parameters
+        ----------
+        data : pandas DataFrame The input data.
+        weight_column : (str)The column containing product weights to convert.
+
+        Returns
+        -------
+        pandas.DataFrame
+            Data with converted product weights.
+        """
+
         def convert_weights(weights):
             # Handle multiple units (e.g., "8 x 85g")
             multiple_match = re.match(
