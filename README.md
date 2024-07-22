@@ -9,6 +9,8 @@ This project is aimed at centralising data from different sources for a retail c
 
 
 ## Installation
+If unsure how to clone a repository 
+ [follow this guide](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository )
 
 To set up the project, follow these steps:
 
@@ -85,6 +87,8 @@ pgadmin:
   user: your_username
   password: your_password
 ````
+
+# Usage 
 ## Dep
 To run this project, you need to have Python installed along with the necessary libraries. You can install the required libraries using the requirements.txt file.
 
