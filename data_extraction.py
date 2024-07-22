@@ -21,11 +21,17 @@ class DataExtractor:
     retrieve_pdf_data(link)
         Extracts data from a PDF file and returns it as a DataFrame.
 
-    list_number_of_stores(url, headers)
-        Gets the number of stores from an API.
+    retrieve_json(url, header)
+        retrieves data from a JSON API and returns it as a DataFrame.
 
-    retrieve_s3_data(bucket_name, file_key, aws_access_key, aws_secret_key, region_name)
-        Downloads a CSV file from an S3 bucket and returns it as a DataFrame.
+    retrieve_number_of_stores(url, headers)
+        gets the number of stores from an API.
+
+    retrieve_store_data(store_number, header)
+        Retrieves detailed store data from an API.
+
+    extract_from_s3(aws_bucket, s3_key, local_path)
+        Downloads  CSV  from an S3 bucket returning a DataFrame.
     """
 
     def read_rds_table(self, table_name, engine):
@@ -59,7 +65,7 @@ class DataExtractor:
         -------
        DataFrame: The PDF data as a pandas DataFrame
         """
-        #STREAM = TRUE READ UP ABOUT IT
+
         pdf_df = tabula.read_pdf(link, pages='all',stream= False)
         pandas_pdf = pd.concat(pdf_df, ignore_index=True)
         return pandas_pdf
@@ -100,19 +106,16 @@ class DataExtractor:
 
     def retrieve_stores_data(self, store_number, header):
         """
-        Downloads a CSV file from an S3 bucket and returns it as a DataFrame.
+        Retrieves detailed store data from an API.
 
         Parameters
         ----------
-        store_number : _type_
-            _description_
-        header : _type_
-            _description_
+        store_number : (int) The number of stores to retrieve data for.
+        header : (dict)The headers to include in the API request.
 
         Returns
         -------
-        _type_
-            _description_
+        pandas DataFrame The detailed store data as a pandas DataFrame.
         """
         store_data = []
 

@@ -1,12 +1,59 @@
 import numpy as np
 import re
 import pandas as pd
-#help with to be future depricated downcasting error
+# help with to be future depricated downcasting error
 pd.set_option('future.no_silent_downcasting', True)
 
+
 class DataCleaning:
-    # Todo ook out for NULL values, errors with dates, incorrectly
-    # Todo typed values and rows filled with the wrong information
+    """ 
+      A class used to clean and preprocess data.
+
+    Methods
+    -------
+    replace_nulls(data, null_value='NULL', replacement=np.nan)
+        Replaces  null values in the data with a given replacement
+
+    convert_dates(data, date_columns_list, date_format='mixed')
+        Converts specified columns to datetime format.
+
+    clean_numbers(data, column)
+        Removes non-numeric characters from a specified column
+
+    clean_store_code(data, column)
+        Replaces invalid store codes with NaN
+
+    convert_data_types(data)
+        Converts data types of dataFrame columns to the best possible types
+
+    column_to_numeric(data, numeric_column)
+        Converts a specified column to numeric
+
+    column_as_type(data, as_type_column, type)
+        Converts a specified column to a given data type
+
+    drop_column(data, dropped_column)
+        Drops a specified column from the DataFrame.
+
+    drop_na(data)
+        Drops rows with any NaN values.
+
+    convert_product_weights(data, weight_column)
+        Converts product weights to a standard unit (kg).
+
+    clean_products_data(data, prod_dates_list)
+        Cleans product data by converting dates, replacing nulls, and dropping NaNs.
+
+    clean_orders_data(data)
+        Cleans orders data by dropping unnecessary columns.
+
+    clean_users(data, user_dates_cols, user_num_column)
+        Cleans user data by converting dates, cleaning numbers, converting data types,
+        replacing nulls, and dropping NaNs.
+
+    clean_dates_details(data)
+        Cleans date details data by converting to numeric, dropping NaNs, and setting data type.
+    """
     def replace_nulls(self, data, null_value='NULL', replacement=np.nan):
         return data.replace(null_value, replacement)
 
