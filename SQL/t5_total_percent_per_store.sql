@@ -1,0 +1,3 @@
+-- The sales team wants to know which of the different store types is generated the most revenue so they know where to focus.
+-- Find out the total and percentage of sales coming from each of the different store types.
+-- The query should return:
