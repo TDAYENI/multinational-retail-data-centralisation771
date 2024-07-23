@@ -26,15 +26,18 @@
 
 
 
-SELECT 
-    COUNT(*) AS number_of_sales, 
-    SUM(o.product_quantity) AS total_product_quantity, 
-    'Web' AS location
-FROM 
-    orders_table o
-    JOIN dim_store_details dsd ON dsd.store_code = o.store_code
-WHERE 
-    dsd.store_type = 'Web Portal'
-GROUP BY 
-    dsd.store_type;
+WITH OnlineData AS (
+    SELECT 
+        COUNT(*) AS number_of_sales, 
+        SUM(o.product_quantity) AS total_product_quantity, 
+        'Web' AS location
+    FROM 
+        orders_table o
+        JOIN dim_store_details dsd ON dsd.store_code = o.store_code
+    WHERE 
+        dsd.store_type = 'Web Portal'
+    GROUP BY 
+        dsd.store_type
+)
+SELECT * FROM OnlineData;
 
