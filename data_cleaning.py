@@ -54,15 +54,18 @@ class DataCleaning:
     clean_dates_details(data)
         Clean date details  data by converting to numeric, dropping NaNs, and setting data type.
     """
+    @staticmethod
     def replace_nulls(self, data, null_value='NULL', replacement=np.nan):
         return data.replace(null_value, replacement)
 
+    @staticmethod
     def convert_dates(self, data, date_columns_list, date_format='mixed'):
         for column in date_columns_list:
             data[column] = pd.to_datetime(
                 data[column], format=date_format, errors='coerce')
         return data
 
+    @staticmethod
     def clean_numbers(self, data, column):
         """Removes non numeric characters using regex"""
         data[column] = data[column].astype('string')
@@ -70,6 +73,7 @@ class DataCleaning:
             lambda x: re.sub(r'\D', '', x) if pd.notnull(x) else x)
         return data.copy()
 
+    @staticmethod
     def clean_store_code(self, data, column):
         """_summary_
         Replaces invalid store codes with NaN.
@@ -86,38 +90,46 @@ class DataCleaning:
             lambda x: x if '-' in str(x) else np.nan)
         return data.copy()
 
+    @staticmethod
     def convert_data_types(self, data):
         """Convert panda vlaues to best data types"""
         return data.convert_dtypes()
 
+    @staticmethod
     def column_to_numeric(self, data, numeric_column):
         """Convert pandas values to numeric type"""
         data.loc[:, numeric_column] = pd.to_numeric(
             data[numeric_column], errors='coerce')
         return data
 
+    @staticmethod
     def column_as_type(self, data, as_type_column, type):
         """Convert pandas column to specified data type"""
         data.loc[:, as_type_column] = data[as_type_column].astype(
             type)  # Use .loc to avoid SettingWithCopyWarning
         return data
 
+    @staticmethod
     def drop_column(self, data, dropped_column):
         return data.drop(dropped_column, axis=1)
 
+    @staticmethod
     def drop_na(self, data):
         return data.dropna()
 
+    @staticmethod
     def thresh_drop_na(self, data, threshold=1):
         # drop rows with two or more missing values
         num_columns = data.shape[1]
         data.dropna(thresh=num_columns - threshold, inplace=True)
         return data
 
+    @staticmethod
     def dropna_column(self, data, column):
         data.dropna(subset=[column], inplace=True)
         return data
-    
+
+    @staticmethod
     def strip_string(self, data, string_column, remove_char):
         data[string_column] = data[string_column].str.replace(remove_char, '')
         return data
@@ -148,6 +160,7 @@ class DataCleaning:
 
         return cleaned_data
 
+    @staticmethod
     def convert_product_weights(self, data, weight_column):
         """_summary_
         Converts product weights kg
@@ -162,7 +175,7 @@ class DataCleaning:
         pandas.DataFrame
             Data with converted product weights.
         """
-
+        @staticmethod
         def convert_weights(weights):
             # Handle multiple units (e.g., "8 x 85g")
             multiple_match = re.match(
