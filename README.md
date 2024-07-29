@@ -107,7 +107,7 @@ pgadmin:
 
 
 2. **Update Database Credentials:**
-    - Update the `cred/pg_admin_creds.yaml` path in main.py script with your PostgreSQL database credentials as well as API keys and headers.
+    - Update the `cred/pg_admin_creds.yaml` path in main.py script with your PostgreSQL database credentials as well as API keys and headers. An example of which can be found in [Configuration](#configuration).
 
 3. **Run the Main Script:**
     - The `main.py` script is used to create and set up the databases.
@@ -119,13 +119,13 @@ pgadmin:
 
 1. **Database Management and Analysis:**
     - Use your preferred SQL client to connect to your database.
-    - Execute the SQL scripts located in the `SQL/` directory to manage and analyze your database.
+    - Execute the SQL scripts located in the `SQL/` directory to manage and analyse your database.
 
     Example SQL scripts:
-    - `alter_statements.sql`: Contains SQL statements to alter existing database structures.
-    - `drop_statements.sql`: Contains SQL statements to drop database objects.
-    - `primary_and_foreign_key.sql`: Defines primary and foreign key constraints.
-    - `t1_how_many_Stores_.sql` to `t9_speed_of_sales.sql`: Various analysis queries to gather insights from the database.
+    - `alter_statements.sql`: SQL statements to alter existing database structures.
+    - `drop_statements.sql`:  SQL statements to drop database objects.
+    - `primary_and_foreign_key.sql`: ddefines primary and foreign key constraints.
+    - `t1_how_many_Stores_.sql` to `t9_speed_of_sales.sql`: queries to gather insights from the database.
 
 ![alt text](SQL/erd_diagram.png)
 
