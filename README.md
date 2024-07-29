@@ -38,20 +38,29 @@ To set up the project, follow these steps:
     ````
 
 ## File Structure
-# UPDATE TO INCLUDE ENVIRONMENTS FOLDER
+
 ````kotlin 
 multinational-retail-data-centralisation/
 ├── SQL/
 │   ├── alter_statements.sql
 │   ├── drop_statements.sql
+│   ├── erd_diagram.png
 │   ├── primary_and_foreign_key.sql
 │   ├── t1_how_many_Stores_.sql
 │   ├── t2_most_stores.sql
 │   ├── t3_month_largest_sale.sql
+│   ├── t4_on_vs_offline.sql
+│   ├── t5_total_percent_per_store.sql
+│   ├── t6_month_highest_cost.sql
+│   ├── t7_staff_headcount.sql
+│   ├── t8_ger_stores.sql
+│   └── t9_speed_of_sales.sql
 ├── data_cleaning.py
 ├── data_extraction.py
 ├── database_utils.py
+├── main.py
 ├── README.md
+└── environment.yml
 ````
 
 The project directory contains the following key files and directories:
@@ -61,12 +70,14 @@ The project directory contains the following key files and directories:
 * data_cleaning.py: Contains methods for cleaning data, including replacing null values, converting date formats, and cleaning numeric data.
 * database_utils.py: Contains methods for managing database connections and uploading data to databases.
 * SQL/: Directory containing SQL scripts for database operations.
+* requirements.txt contains the dependecies for a virtual environment.
+
 
 ## Configuration
 Database Credentials
 Database credentials are stored in YAML files located in the cred directory. Ensure you have created these files with the correct database details.
 
-Example db_creds.yaml:
+**Example db_creds.yaml:**
 ```yaml
 database:
   host: your_host
@@ -88,11 +99,35 @@ pgadmin:
 ````
 
 # Usage 
+
+### Running the Main Script to Create Databases
+
+1. **Set Up the Environment:**
+    - Ensure you have Conda installed. Create and activate the environment using the `environment.yml` file shown in [Installation](#installation).
+
+
+2. **Update Database Credentials:**
+    - Update the `cred/pg_admin_creds.yaml` path in main.py script with your PostgreSQL database credentials as well as API keys and headers.
+
+3. **Run the Main Script:**
+    - The `main.py` script is used to create and set up the databases.
+    ```sh
+    python main.py
+    ```
+
+### Running SQL Scripts
+
+1. **Database Management and Analysis:**
+    - Use your preferred SQL client to connect to your database.
+    - Execute the SQL scripts located in the `SQL/` directory to manage and analyze your database.
+
+    Example SQL scripts:
+    - `alter_statements.sql`: Contains SQL statements to alter existing database structures.
+    - `drop_statements.sql`: Contains SQL statements to drop database objects.
+    - `primary_and_foreign_key.sql`: Defines primary and foreign key constraints.
+    - `t1_how_many_Stores_.sql` to `t9_speed_of_sales.sql`: Various analysis queries to gather insights from the database.
+
 ![alt text](SQL/erd_diagram.png)
-pass in credentials and add .py
-ad erd diagram
-main features
-To run this project, you need to have Python installed along with the necessary libraries. You can install the required libraries using the requirements.txt file.
+
 
 # License
-ADD at the end
