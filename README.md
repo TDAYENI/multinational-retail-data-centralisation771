@@ -111,7 +111,7 @@ pgadmin:
 
 3. **Run the Main Script:**
     - The `main.py` script is used to create and set up the databases.
-    ```sh
+    ```ssh
     python main.py
     ```
 
