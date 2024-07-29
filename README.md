@@ -88,7 +88,7 @@ pgadmin:
 ````
 
 # Usage 
-## Dep
+![alt text](SQL/erd_diagram.png)
 pass in credentials and add .py
 ad erd diagram
 main features
