@@ -1,6 +1,7 @@
 -- The company stakeholders want assurances that the company has been doing well recently.
 -- Find which months in which years have had the most sales historically.
 -- Main query to calculate total sales, grouped by year and month, and ordered by total sales
+
 SELECT 
     ROUND(SUM(ord.product_quantity * prod.product_price)::numeric, 2) AS total_sales,  -- Calculate total sales for each year and month
     date_dim.year, 

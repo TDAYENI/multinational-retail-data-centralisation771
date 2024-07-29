@@ -5,7 +5,7 @@
 -- Common Table Expression (CTE) to calculate the total sales sum
 WITH TotalSales AS (
     SELECT 
-        SUM(o.product_quantity * p.product_price) AS total_sum  -- Calculate the total sum of sales
+        SUM(o.product_quantity * p.product_price) AS total_sum  -- calc the total sum of sales
     FROM
         orders_table o
     JOIN 
@@ -14,7 +14,7 @@ WITH TotalSales AS (
         o.product_code = dp.product_code
 )
 
--- Main query to calculate total sales and percentage of total sales by store type
+-- Main query to calculate tot sales and % of total sales by store type
 SELECT 
     dsd.store_type AS store_type, 
     ROUND(SUM(o.product_quantity * dp.product_price)::numeric, 2) AS total_sales,  -- Calculate total sales for each store type
